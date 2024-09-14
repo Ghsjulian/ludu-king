@@ -1,25 +1,26 @@
 <script>
-        const url = "http://localhost:5000/api/user/login";
-        const userData = {
-            email: "ghsjulian@gmail.com",
-            password: "ghsjulian_&85;"
-        };
-        fetch(url, {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify(userData)
+    const url = "http://localhost:5000/api/user/login";
+    // const url = "http://localhost:5000/api/user/signup";
+    const userData = {
+        name: "Ghs Julian",
+        email: "ghsjulian@gmail.com",
+        phone: "01743789311",
+        password: "123456"
+    };
+    fetch(url, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(userData)
+    })
+        .then(res => {
+            return res.json();
         })
-            .then(res => {
-                return res.json();
-            })
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
 
-    
-
-        //   window.location.href = "http://localhost:5000/api/user/login";
+    //   window.location.href = "http://localhost:5000/api/user/login";
 </script>

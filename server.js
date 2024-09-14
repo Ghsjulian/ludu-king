@@ -14,14 +14,12 @@ const HOST = "127.0.0.1";
 const dbName = process.env.DB;
 const URI = process.env.URI;
 
-// SETUP SOCKET CONNECTION
-// Set up Express to serve static files from the public folder
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "*" }));
+app.use(cookieParser());
 app.set("view engine", "ejs");
-app.use(cookieParser()); 
 app.use("/api", router);
 app.get("/", (req, res) => {
     res.render("index");
