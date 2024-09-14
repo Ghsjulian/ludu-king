@@ -1,5 +1,25 @@
-<body>
-    <script>
-       window.location.href = "http://localhost:5000";
-    </script>
-</body>
+<script>
+        const url = "http://localhost:5000/api/user/login";
+        const userData = {
+            email: "ghsjulian@gmail.com",
+            password: "ghsjulian_&85;"
+        };
+        fetch(url, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(userData)
+        })
+            .then(res => {
+                return res.json();
+            })
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+    
+
+        //   window.location.href = "http://localhost:5000/api/user/login";
+</script>
