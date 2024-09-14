@@ -1,7 +1,61 @@
 "use strict";
 
+// client.js
 const socket = io();
-socket.emit("message", "Hello This Is Message!", "12345");
-socket.on("message", (message) => {
-    alert(message);
+
+// User 1 sends a connection request to User 2
+socket.emit("sendRequest", {
+    from: "User 1",
+    to: "User 2"
+});
+
+// User 2 receives the connection request
+socket.on("connectionRequest", data => {
+    const from = data.from;
+    const to = data.to;
+alert(from)
+    console.log(`Received connection request from ${from}`);
+
+    // User 2 can either accept or decline the request
+    const response = prompt(
+        "Do you want to accept the connection request? (yes/no)"
+    );
+
+    if (response === "yes") {
+        // User 2 accepts the request
+        socket.emit("acceptRequest", {
+            from: to,
+            to: from
+        });
+    } else {
+        // User 2 declines the request
+        socket.emit("declineRequest", {
+            from: to,
+            to: from
+        });
+    }
+});
+
+// User 1 receives the connection response
+socket.on("connected", data => {
+    console.log(`Connected to User 2`);
+});
+
+socket.on("declined", data => {
+    console.log(`User 2 declined your connection request`);
+});
+
+// Send message
+socket.emit("sendMessage", {
+    from: "User 1",
+    to: "User 2",
+    message: "Hello, User 2!"
+});
+
+// Receive message
+socket.on("receiveMessage", data => {
+    const from = data.from;
+    const message = data.message;
+
+    console.log(`Received message from ${from}: ${message}`);
 });

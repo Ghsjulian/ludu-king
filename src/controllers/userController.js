@@ -145,9 +145,9 @@ class userController {
                             if (update) {
                                 date.setDate(date.getDate() + 30);
                     res.cookie("token", token, {
-                        expires: date
+                        expires: date,httpOnly: true
                     });
-                                return res.status(200).json({
+                                 res.status(200).json({
                                     code: 200,
                                     type: isExist.type,
                                     id: isExist._id,

@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --bg: rgb(196, 209, 214);
+    --text: rgb(58, 67, 71);
+    --white: rgb(255, 255, 255);
+    --link: rgb(5, 164, 232);
+    --logo: rgb(213, 111, 0);
+    --span: rgb(3, 154, 8);
+    --link-hover : rgb(238,240,239);
+}
+html {
+    font-size: 90%;
+}
+body {
+    background: var(--bg);
+    color: var(--text);
+    transition: 0.3s ease-in;
+    scroll-behavior: smooth;
+}
+header {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    background: var(--white);
+    padding: 1rem 0;
+}
+header h3 {
+    color: var(--logo);
+    font-weight: 900;
+}
+header h3 span {
+    color: var(--span);
+    font-weight: 900;
+    margin: 0 0.3rem;
+}
+header .links {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2rem;
+}
+header .links h3 {
+    display: none;
+}
+header .links a {
+    text-decoration: none;
+    color: var(--link);
+    font-weight: 500;
+    padding: 0.5rem 0.7rem;
+    transition: 0.3s ease-in all;
+}
+.links a:hover {
+    color: var(--logo);
+}
+header .m-btn {
+    display: none;
+    outline: none;
+    border: none;
+    background: transparent;
+    color: var(--text);
+}
+@media (max-width: 768px) {
+    header {
+        justify-content: space-between;
+        padding: 0.8rem;
+    }
+    header .links {
+        display: none;
+    }
+    header .m-btn {
+        display: block;
+    }
+    .m-btn img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+    }
+    header .mobile-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100vh;
+        overflow-y: auto;
+        display: flex;
+        gap: 0;
+        flex-direction: column;
+        align-items: left;
+        justify-content: left;
+        text-align: justify;
+        background: var(--white);
+        z-index: 10000;
+        padding: 1rem 0.3rem;
+        transition: 0.3s ease-in;
+    }
+    header .mobile-menu h3 {
+        display: block;
+        color: var(--text);
+        margin: 0 0;
+        margin-bottom: 0.5rem;
+        justify-content: left;
+        text-align: justify;
+        width: 90%;
+        padding: 0 1rem;
+    }
+    header .mobile-menu a {
+        width: 90%;
+        justify-content: left;
+        margin: 0.7rem 0;
+        text-align: justify;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        color: var(--link);
+        font-weight: 600;
+        transition: .3s ease-in;
+    }
+    .mobile-menu a:hover {
+        background: var(--link-hover);
+    }
+}
