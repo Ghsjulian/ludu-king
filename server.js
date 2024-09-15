@@ -9,6 +9,8 @@ const server = require("http").createServer(app);
 const IO = require("./src/socket/socket.io");
 const router = require("./src/router/");
 dotenv.config();
+const isLogin = require("./src/auth/isLogin");
+const isToken = require("./src/auth/isToken");
 const PORT = process.env.PORT || 5000;
 const HOST = "127.0.0.1";
 const dbName = process.env.DB;
@@ -17,15 +19,24 @@ const URI = process.env.URI;
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "*" }));
 app.use(cookieParser());
 app.set("view engine", "ejs");
+app.use(cors({ origin: "*" }));
 app.use("/api", router);
 app.get("/", (req, res) => {
     res.render("index");
 });
-app.get("/login", (req, res) => {
+app.get("/signup", isToken, (req, res) => {
+    res.render("signup");
+});
+app.get("/login",isToken, (req, res) => {
     res.render("login");
+});
+app.get("/playground", isLogin, (req, res) => {
+    res.render("playground");
+});
+app.get("/ludo", isLogin, (req, res) => {
+    res.render("ludu");
 });
 
 mongoose

@@ -1,11 +1,20 @@
-import { BASE_POSITIONS, HOME_ENTRANCE, HOME_POSITIONS, PLAYERS, SAFE_POSITIONS, START_POSITIONS, STATE, TURNING_POINTS } from './constants.js';
-import { UI } from './UI.js';
+import {
+    BASE_POSITIONS,
+    HOME_ENTRANCE,
+    HOME_POSITIONS,
+    PLAYERS,
+    SAFE_POSITIONS,
+    START_POSITIONS,
+    STATE,
+    TURNING_POINTS
+} from "./constants.js";
+import { UI } from "./UI.js";
 
 export class Ludo {
     currentPositions = {
         P1: [],
         P2: []
-    }
+    };
 
     _diceValue;
     get diceValue() {
@@ -33,7 +42,7 @@ export class Ludo {
     set state(value) {
         this._state = value;
 
-        if(value === STATE.DICE_NOT_ROLLED) {
+        if (value === STATE.DICE_NOT_ROLLED) {
             UI.enableDice();
             UI.unhighlightPieces();
         } else {
@@ -42,8 +51,6 @@ export class Ludo {
     }
 
     constructor() {
-        console.log('Hello World! Lets play Ludo!');
-
         // this.diceValue = 4;
         // this.turn = 0;
         // this.state = STATE.DICE_ROLLED;
@@ -56,26 +63,33 @@ export class Ludo {
         // this.setPiecePosition('P2', 0, 1);
         // this.diceValue = 6;
         // console.log(this.getEligiblePieces('P1'))
-        
     }
 
     listenDiceClick() {
-        UI.listenDiceClick(this.onDiceClick.bind(this))
+        UI.listenDiceClick(this.onDiceClick.bind(this));
     }
 
     onDiceClick() {
-        console.log('dice clicked!');
         this.diceValue = 1 + Math.floor(Math.random() * 6);
         this.state = STATE.DICE_ROLLED;
-        
+
         this.checkForEligiblePieces();
     }
 
     checkForEligiblePieces() {
+        var btn = document.querySelector("#dice-btn");
         const player = PLAYERS[this.turn];
+        /*
+        if (player === "P1") {
+            btn.style.backgroundColor = "#1295e7";
+        } else {
+            btn.style.backgroundColor = "#009d60";
+        }
+*/
+        //console.log("Ghsjulian", player);
         // eligible pieces of given player
         const eligiblePieces = this.getEligiblePieces(player);
-        if(eligiblePieces.length) {
+        if (eligiblePieces.length) {
             // highlight the pieces
             UI.highlightPieces(player, eligiblePieces);
         } else {
@@ -92,21 +106,21 @@ export class Ludo {
         return [0, 1, 2, 3].filter(piece => {
             const currentPosition = this.currentPositions[player][piece];
 
-            if(currentPosition === HOME_POSITIONS[player]) {
+            if (currentPosition === HOME_POSITIONS[player]) {
                 return false;
             }
 
-            if(
-                BASE_POSITIONS[player].includes(currentPosition)
-                && this.diceValue !== 6
-            ){
+            if (
+                BASE_POSITIONS[player].includes(currentPosition) &&
+                this.diceValue !== 6
+            ) {
                 return false;
             }
 
-            if(
-                HOME_ENTRANCE[player].includes(currentPosition)
-                && this.diceValue > HOME_POSITIONS[player] - currentPosition
-                ) {
+            if (
+                HOME_ENTRANCE[player].includes(currentPosition) &&
+                this.diceValue > HOME_POSITIONS[player] - currentPosition
+            ) {
                 return false;
             }
 
@@ -115,17 +129,21 @@ export class Ludo {
     }
 
     listenResetClick() {
-        UI.listenResetClick(this.resetGame.bind(this))
+        UI.listenResetClick(this.resetGame.bind(this));
     }
 
     resetGame() {
-        console.log('reset game');
+        // console.log("reset game");
         this.currentPositions = structuredClone(BASE_POSITIONS);
 
         PLAYERS.forEach(player => {
             [0, 1, 2, 3].forEach(piece => {
-                this.setPiecePosition(player, piece, this.currentPositions[player][piece])
-            })
+                this.setPiecePosition(
+                    player,
+                    piece,
+                    this.currentPositions[player][piece]
+                );
+            });
         });
 
         this.turn = 0;
@@ -139,21 +157,24 @@ export class Ludo {
     onPieceClick(event) {
         const target = event.target;
 
-        if(!target.classList.contains('player-piece') || !target.classList.contains('highlight')) {
+        if (
+            !target.classList.contains("player-piece") ||
+            !target.classList.contains("highlight")
+        ) {
             return;
         }
-        console.log('piece clicked')
+        // console.log("piece clicked");
 
-        const player = target.getAttribute('player-id');
-        const piece = target.getAttribute('piece');
+        const player = target.getAttribute("player-id");
+        const piece = target.getAttribute("piece");
         this.handlePieceClick(player, piece);
     }
 
     handlePieceClick(player, piece) {
-        console.log(player, piece);
+        // console.log(player, piece);
         const currentPosition = this.currentPositions[player][piece];
-        
-        if(BASE_POSITIONS[player].includes(currentPosition)) {
+
+        if (BASE_POSITIONS[player].includes(currentPosition)) {
             this.setPiecePosition(player, piece, START_POSITIONS[player]);
             this.state = STATE.DICE_NOT_ROLLED;
             return;
@@ -165,7 +186,7 @@ export class Ludo {
 
     setPiecePosition(player, piece, newPosition) {
         this.currentPositions[player][piece] = newPosition;
-        UI.setPiecePosition(player, piece, newPosition)
+        UI.setPiecePosition(player, piece, newPosition);
     }
 
     movePiece(player, piece, moveBy) {
@@ -174,11 +195,11 @@ export class Ludo {
             this.incrementPiecePosition(player, piece);
             moveBy--;
 
-            if(moveBy === 0) {
+            if (moveBy === 0) {
                 clearInterval(interval);
 
                 // check if player won
-                if(this.hasPlayerWon(player)) {
+                if (this.hasPlayerWon(player)) {
                     alert(`Player: ${player} has won!`);
                     this.resetGame();
                     return;
@@ -186,7 +207,7 @@ export class Ludo {
 
                 const isKill = this.checkForKill(player, piece);
 
-                if(isKill || this.diceValue === 6) {
+                if (isKill || this.diceValue === 6) {
                     this.state = STATE.DICE_NOT_ROLLED;
                     return;
                 }
@@ -198,37 +219,50 @@ export class Ludo {
 
     checkForKill(player, piece) {
         const currentPosition = this.currentPositions[player][piece];
-        const opponent = player === 'P1' ? 'P2' : 'P1';
+        const opponent = player === "P1" ? "P2" : "P1";
 
         let kill = false;
 
         [0, 1, 2, 3].forEach(piece => {
             const opponentPosition = this.currentPositions[opponent][piece];
 
-            if(currentPosition === opponentPosition && !SAFE_POSITIONS.includes(currentPosition)) {
-                this.setPiecePosition(opponent, piece, BASE_POSITIONS[opponent][piece]);
-                kill = true
+            if (
+                currentPosition === opponentPosition &&
+                !SAFE_POSITIONS.includes(currentPosition)
+            ) {
+                this.setPiecePosition(
+                    opponent,
+                    piece,
+                    BASE_POSITIONS[opponent][piece]
+                );
+                kill = true;
             }
         });
 
-        return kill
+        return kill;
     }
 
     hasPlayerWon(player) {
-        return [0, 1, 2, 3].every(piece => this.currentPositions[player][piece] === HOME_POSITIONS[player])
+        return [0, 1, 2, 3].every(
+            piece =>
+                this.currentPositions[player][piece] === HOME_POSITIONS[player]
+        );
     }
 
     incrementPiecePosition(player, piece) {
-        this.setPiecePosition(player, piece, this.getIncrementedPosition(player, piece));
+        this.setPiecePosition(
+            player,
+            piece,
+            this.getIncrementedPosition(player, piece)
+        );
     }
-    
+
     getIncrementedPosition(player, piece) {
         const currentPosition = this.currentPositions[player][piece];
 
-        if(currentPosition === TURNING_POINTS[player]) {
+        if (currentPosition === TURNING_POINTS[player]) {
             return HOME_ENTRANCE[player][0];
-        }
-        else if(currentPosition === 51) {
+        } else if (currentPosition === 51) {
             return 0;
         }
         return currentPosition + 1;

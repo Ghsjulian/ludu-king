@@ -40,19 +40,38 @@
         <link rel="stylesheet" href="/css/Ludu.css" />
     </head>
     <body>
-<%- include("./layouts/header.ejs") %>
+        <header>
+            <h3>Ludo<span>King</span></h3>
+            <div class="links">
+                <h3>Main Menu</h3>
+                <a href="/">Home</a>
+                <a href="/profile">Profile</a>
+                <a href="/login">Login</a>
+                <a href="/signup">Signup</a>
+                <a href="#">Logout</a>
+            </div>
+            <button class="m-btn">
+                <img src="/icons/burger-menu-svgrepo-com.svg" />
+            </button>
+        </header>
         <main>
             <section>
-                <h3>Play Your Favorite Games</h3>
-                <div class="grid-row">
-                    <div class="row">
-                        <img src="/images/ludo-bg.jpg" />
-                        <h3>Online Ludo King</h3>
-                        <a href="/playground">Play Now</a>
+                <h3>Play With Your Friends</h3>
+                <div class="playground">
+                    <div class="user">
+                        <div class="flex-user">
+                            <img src="/icons/Ghsjulian.png" />
+                            <span>Ghs Julian</span>
+                        </div>
+                        <button>Request</button>
                     </div>
                 </div>
             </section>
-        </m>
-<script src="/js/menu.js"></script>
-   </body>
+        </main>
+
+        <script src="/js/main.js" type="module"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/socket.io.js"></script>
+        <script src="/js/menu.js"></script>
+    </body>
 </html>

@@ -6,8 +6,20 @@
     width: 355px;
     max-width: 350px;
     margin: 20px auto;
+    background: #fff;
 }
 
+.ludo-container h3 {
+    color: rgb(215, 94, 7);
+    font-weight: 900;
+    text-align: center;
+    margin: 1rem auto;
+}
+.ludo-container h3 span {
+    color: rgb(0, 176, 153);
+    font-style: italic;
+    margin: 0 0.3rem;
+}
 .ludo-container .ludo {
     /* height: 450px; */
     width: 350px;
@@ -21,25 +33,26 @@
 .player-pieces {
     height: 100%;
     width: 100%;
+    position: relative;
 }
-
 .player-piece {
     position: absolute;
-    width: 4%;
-    height: 4%;
-    border: 2px solid #ffffff;
+    width: 5%;
+    height: 5%;
+    border: 2px solid #fff;
     border-radius: 50%;
     transform: translate(50%, 50%);
     transition: all 0.2s;
-    z-index: 100;
-
-    /* top: 15%;
-    left: 50%; */
+    z-index: 1000;
+    top: -2px;
 }
+
 .player-piece.highlight {
     cursor: pointer;
-    border: 2px dashed;
-    animation: spin 1s infinite linear;
+    border-style: dashed;
+    border-width: 2.5px;
+    border-color: #fff;
+    animation: spin 1.2s infinite linear;
 }
 @keyframes spin {
     0% {
@@ -54,11 +67,11 @@
 }
 
 [player-id="P1"].player-piece {
-    background-color: #2eafff;
+    background-color: #017fcd;
 }
 
 [player-id="P2"].player-piece {
-    background-color: #00b550;
+    background-color: #028e40;
 }
 
 .player-base {
@@ -104,6 +117,8 @@
 .btn-dice {
     background-color: #009d60;
     color: white;
+    border-radius: 5px;
+    margin: 1rem;
 }
 
 .row {
@@ -113,6 +128,11 @@
 }
 
 .dice-value {
+    margin: 1rem;
     font-size: 24px;
     font-weight: bold;
+}
+.active-player,
+#reset-btn {
+    display: none;
 }

@@ -144,10 +144,10 @@ class userController {
                             );
                             if (update) {
                                 date.setDate(date.getDate() + 30);
-                    res.cookie("token", token, {
-                        expires: date,httpOnly: true
-                    });
-                                 res.status(200).json({
+                                res.cookie("token", token, {
+                                    expires: date,
+                                });
+                                res.status(200).json({
                                     code: 200,
                                     type: isExist.type,
                                     id: isExist._id,
@@ -225,7 +225,7 @@ class userController {
                         email,
                         today
                     });
-                    const update = await myUser.findOneAndUpdate(
+                    const update = await User.findOneAndUpdate(
                         { user_email: email },
                         { user_token: "" }
                     );
@@ -271,7 +271,7 @@ class userController {
     }
     async users(req, res) {
         try {
-            const users = await myUser.find().exec();
+            const users = await User.find().exec();
             // console.log(users);
             return res.status(200).json(users);
         } catch (err) {
@@ -288,7 +288,7 @@ class userController {
         try {
             const isExist = await myFunction.findOne({ _id: userId });
             if (isExist) {
-                const isDelete = await myUser.findByIdAndDelete(userId);
+                const isDelete = await User.findByIdAndDelete(userId);
                 return res.status(204).json({
                     code: 204,
                     status: "success",

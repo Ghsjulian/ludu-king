@@ -31,7 +31,7 @@ const getCookie = cname => {
 };
 
 const login = async userData => {
-    const url = "/api/user/login";
+    const url = "/api/user/signup";
     /*
     const userData = {
         email: "ghsjulian@gmail.com",
@@ -75,16 +75,26 @@ const showMessage = (type, msg) => {
 
 loginBtn.onclick = e => {
     e.preventDefault();
+    var name = document.querySelector("#name").value;
     var email = document.querySelector("#email").value;
+    var phone = document.querySelector("#phone").value;
     var password = document.querySelector("#password").value;
+    if (name === "") {
+        showMessage(false, "Please Enter Username !");
+        return;
+    }
     if (email === "") {
-        showMessage(false, "Please Enter Admin Email !");
+        showMessage(false, "Please Enter Email !");
+        return;
+    }
+    if (phone === "") {
+        showMessage(false, "Please Enter Phone Number!");
         return;
     }
     if (password === "") {
-        showMessage(false, "Please Enter Admin Password !");
+        showMessage(false, "Please Enter Password !");
         return;
     } else {
-        login({ email, password });
+        login({ name, email, phone, password });
     }
 };

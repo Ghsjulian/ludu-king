@@ -27,7 +27,6 @@ export class UI {
      */
     static setPiecePosition(player, piece, newPosition) {
         if(!playerPiecesElements[player] || !playerPiecesElements[player][piece]) {
-            console.error(`Player element of given player: ${player} and piece: ${piece} not found`)
             return;
         }
 
@@ -45,7 +44,12 @@ export class UI {
         }
         
         const player = PLAYERS[index];
-
+        var btn = document.querySelector("#dice-btn");
+        if (player === "P1") {
+            btn.style.backgroundColor = "#1295e7";
+        } else {
+            btn.style.backgroundColor = "#009d60";
+        }
         // Display player ID
         document.querySelector('.active-player span').innerText = player;
 
@@ -85,6 +89,7 @@ export class UI {
 
     static setDiceValue(value) {
         document.querySelector('.dice-value').innerText = value;
+        
     }
 }
 

@@ -10,7 +10,11 @@
     --link: rgb(5, 164, 232);
     --logo: rgb(213, 111, 0);
     --span: rgb(3, 154, 8);
-    --link-hover : rgb(238,240,239);
+    --link-hover: rgb(238, 240, 239);
+    --container-shadow: 2px 2px 10px rgb(66, 66, 66),
+        -2px -2px 8px rgb(94, 94, 94);
+    --normal-shadow: 1px 1px 5px rgb(106, 106, 106),
+        -1px 1px 5px rgb(145, 145, 145);
 }
 html {
     font-size: 90%;
@@ -68,6 +72,132 @@ header .m-btn {
     background: transparent;
     color: var(--text);
 }
+main {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    padding: 1.5rem 0;
+    margin: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+section {
+    position: relative;
+    margin-top: 5%;
+    background: var(--white);
+    width: 95%;
+    height: 90%;
+    padding: 1rem;
+    margin: 2rem auto;
+    border-radius: 5px;
+}
+section h3 {
+    color: var(--link);
+    text-align: center;
+    justify-content: center;
+    margin: 0.5rem auto;
+}
+.grid-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(auto, 1fr));
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+.grid-row .row {
+    height: 100%;
+    background: var(--white);
+    padding: 0.5rem;
+    border-radius: 5px;
+    box-shadow: var(--normal-shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0.2rem;
+    border: 1px solid var(--text);
+}
+.row img {
+    width: 100%;
+    height: 200px;
+    object-fit: fill;
+    border-radius: 5px;
+}
+.row a {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    border: 1px solid var(--link);
+    cursor: pointer;
+    color: var(--link);
+    font-weight: 600;
+    background: transparent;
+    transition: 0.3s ease-in;
+}
+.row a:hover {
+    background: var(--link);
+    color: var(--white);
+}
+
+section .playground {
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 0.5rem auto;
+    overflow-y: auto;
+}
+.playground .user {
+    width: 98%;
+    margin: 0.5rem auto;
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #eaeaea;
+}
+.user .flex-user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.user .flex-user img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 50%;
+}
+.user .flex-user span {
+    color: var(--link);
+    font-weight: 600;
+}
+.user button {
+    outline: none;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    border: 1px solid var(--link);
+    cursor: pointer;
+    color: var(--link);
+    font-weight: 600;
+    background: transparent;
+    transition: 0.3s ease-in;
+}
+.user button:hover {
+    outline: none;
+    background: var(--link);
+    color: var(--white);
+}
+
 @media (max-width: 768px) {
     header {
         justify-content: space-between;
@@ -122,9 +252,12 @@ header .m-btn {
         border-radius: 8px;
         color: var(--link);
         font-weight: 600;
-        transition: .3s ease-in;
+        transition: 0.3s ease-in;
     }
     .mobile-menu a:hover {
         background: var(--link-hover);
+    }
+    section .playground {
+        max-width: 100%;
     }
 }

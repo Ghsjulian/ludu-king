@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -37,23 +38,26 @@
         <!-- Viewport meta tag for responsiveness -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/css/layouts.css" />
+        <link rel="stylesheet" href="/css/Ludu.css" />
     </head>
     <body>
-        <header>
-            <h3>Ludo<span>King</span></h3>
-            <div class="links">
-                <h3>Main Menu</h3>
-                <a href="/">Home</a>
-                <a href="/profile">Profile</a>
-                <a href="/login">Login</a>
-                <a href="/signup">Signup</a>
-                <a href="#">Logout</a>
-            </div>
-            <button class="m-btn">
-                <img src="/icons/burger-menu-svgrepo-com.svg" />
-            </button>
-        </header>
+      <%- include("./layouts/header.ejs") %>
+ 
+        <main>
+            <section>
+                <h3>Play With Your Friends</h3>
+                <div class="playground">
+                    <div class="user">
+                        <div class="flex-user">
+                            <img src="/icons/Ghsjulian.png" />
+                            <span>Ghs Julian</span>
+                        </div>
+                        <button>Request</button>
+                    </div>
+                </div>
+            </section>
+        </main>
 
-        <script src="/js/menu.js"></script>
+        <script src="/js/main.js" type="module"></script>
     </body>
 </html>
