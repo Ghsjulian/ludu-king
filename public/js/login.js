@@ -47,6 +47,8 @@ const login = async userData => {
         const response = await sendData.json();
         if (response.type) {
             showMessage(true, response.message);
+            setCookie("u_id",response.id)
+            setCookie("u_name", response.name);
             window.location.href = "/";
             //console.log(response);
         } else {

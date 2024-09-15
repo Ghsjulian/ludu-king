@@ -1,11 +1,26 @@
 "use strict";
 
 // client.js
+const getCookie = cname => {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == " ") {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+};
 const socket = io();
 
 // User 1 sends a connection request to User 2
 socket.emit("sendRequest", {
-    from: "User 1",
+    from: getCookie("u_id"),
     to: "User 2"
 });
 
@@ -13,7 +28,7 @@ socket.emit("sendRequest", {
 socket.on("connectionRequest", data => {
     const from = data.from;
     const to = data.to;
-alert(from)
+    alert(from);
     console.log(`Received connection request from ${from}`);
 
     // User 2 can either accept or decline the request

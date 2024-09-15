@@ -77,6 +77,7 @@ class userController {
                         token,
                         date: today,
                         id: newUser._id,
+                        name ,
                         message: "User Registration Successfully!"
                     });
                 } else {
@@ -145,13 +146,14 @@ class userController {
                             if (update) {
                                 date.setDate(date.getDate() + 30);
                                 res.cookie("token", token, {
-                                    expires: date,
+                                    expires: date
                                 });
                                 res.status(200).json({
                                     code: 200,
                                     type: isExist.type,
                                     id: isExist._id,
                                     token,
+                                    name : isExist.name,
                                     date: today,
                                     status: "success",
                                     message: "User Logged In Successfully"
@@ -274,6 +276,19 @@ class userController {
             const users = await User.find().exec();
             // console.log(users);
             return res.status(200).json(users);
+        } catch (err) {
+            console.log(err);
+            return res.status(404).json({
+                code: 404,
+                status: "failed",
+                message: "No User Found!"
+            });
+        }
+    }
+    async getUserById(req, res) {
+        try {
+            const user = await User.findById(req.params.id);
+            return res.json(user);
         } catch (err) {
             console.log(err);
             return res.status(404).json({

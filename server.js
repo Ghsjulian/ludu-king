@@ -6,7 +6,8 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const app = express();
 const server = require("http").createServer(app);
-const IO = require("./src/socket/socket.io");
+//const IO = require("./src/socket/socket.io");
+const socketManager = require("./src/socket/connection");
 const router = require("./src/router/");
 dotenv.config();
 const isLogin = require("./src/auth/isLogin");
@@ -24,12 +25,13 @@ app.set("view engine", "ejs");
 app.use(cors({ origin: "*" }));
 app.use("/api", router);
 app.get("/", (req, res) => {
+    socketManager.init(server)
     res.render("index");
 });
 app.get("/signup", isToken, (req, res) => {
     res.render("signup");
 });
-app.get("/login",isToken, (req, res) => {
+app.get("/login", isToken, (req, res) => {
     res.render("login");
 });
 app.get("/playground", isLogin, (req, res) => {
@@ -44,7 +46,6 @@ mongoose
     .then(() => {
         server.listen(PORT, () => {
             console.clear();
-            IO(server);
             console.log(
                 `\n ____________________________________________________`
             );
