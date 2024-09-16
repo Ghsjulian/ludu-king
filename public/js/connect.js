@@ -22,46 +22,51 @@ const socket = io();
 const u_name = getCookie("u_name");
 const u_id = getCookie("u_id");
 
+const updateUser = user => {
+    const userDiv = document.createElement("div");
+    userDiv.className = "user";
+    userDiv.id = user.u_id;
+    const flexUserDiv = document.createElement("div");
+    flexUserDiv.className = "flex-user";
+    const userImg = document.createElement("img");
+    userImg.src = "/icons/user.png";
+    const userNameSpan = document.createElement("span");
+    userNameSpan.textContent = user.u_name;
+    flexUserDiv.appendChild(userImg);
+    flexUserDiv.appendChild(userNameSpan);
+    const connectBtn = document.createElement("button");
+    connectBtn.className = "connect";
+    connectBtn.id = user.u_id;
+    connectBtn.textContent = "Request";
+    connectBtn.onclick = () => {
+        Connect(user.u_id);
+    };
+    userDiv.appendChild(flexUserDiv);
+    userDiv.appendChild(connectBtn);
+    if (user.u_id !== u_id) {
+        playground.appendChild(userDiv);
+    }
+};
+
 socket.on("connection", () => {
     console.log("Connected to server");
 });
 
 socket.emit("user", JSON.stringify({ u_id, u_name }));
 
-socket.on("newUser", user => {
-    const userDiv = document.createElement("div");
-    userDiv.className = "user";
-    userDiv.id = user.u_id;
-
-    const flexUserDiv = document.createElement("div");
-    flexUserDiv.className = "flex-user";
-
-    const userImg = document.createElement("img");
-    userImg.src = "/icons/user.png";
-
-    const userNameSpan = document.createElement("span");
-    userNameSpan.textContent = user.u_name;
-
-    flexUserDiv.appendChild(userImg);
-    flexUserDiv.appendChild(userNameSpan);
-
-    const connectBtn = document.createElement("button");
-    connectBtn.className = "connect";
-    connectBtn.id = user.u_id;
-    connectBtn.textContent = "Request";
-
-    userDiv.appendChild(flexUserDiv);
-    userDiv.appendChild(connectBtn);
-
-    if(user.u_id !== u_id){
-    playground.appendChild(userDiv);
+socket.on("activeUsers", users => {
+    // alert(JSON.stringify(users));
+    if (users.length > 0) {
+        users.map(user => {
+            updateUser(user);
+        });
     }
 });
 
 socket.on("userLeft", user => {
     const userLeft = document.getElementById(user.u_id);
     userLeft.remove();
-    return;
+    //return;
     /*
     const userElement = document.querySelector(
         `.user span:contains(${user.u_name})`
@@ -77,9 +82,9 @@ socket.on("disconnect", () => {
 });
 
 // Sending Request To AN User
-connectBtn.onclick = () => {
-    const targetUserId = ""; /* get the target user ID from the UI */
-    socket.emit("connectToUser", targetUserId);
+const Connect = id => {
+    // alert(id);
+    socket.emit("connectToUser", id);
 };
 
 /*

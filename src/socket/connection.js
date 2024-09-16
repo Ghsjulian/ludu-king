@@ -26,14 +26,23 @@ class SocketManager {
         this.io.attach(server);
         this.io.on("connection", socket => {
             socket.on("user", user => {
-                const u_data = JSON.parse(user);
+                var u_data = JSON.parse(user);
+                u_data.sock_id = socket.id;
                 const id = u_data.u_id;
                 if (!this.users[id]) {
                     this.users[id] = u_data;
-                    this.io.emit("newUser", u_data); // Send new user to all clients
+                    // console.log(this.users);
+                    this.io.emit("newUser", u_data);
+                    const active_users = Object.values(this.users);
+                    this.io.emit("activeUsers", active_users);
+                    // Send new user to all clients
                 }
                 console.log(`${u_data.u_name} Connected`);
-
+                // ALL ACTIVE USERS
+                socket.on("activeUsers", () => {
+                    const active_users = Object.values(this.users);
+                    this.io.emit("activeUsers", active_users);
+                });
                 // IF DISCONNECT
                 socket.on("disconnect", () => {
                     console.log(`${u_data.u_name} Disconnected`);
@@ -43,9 +52,12 @@ class SocketManager {
                 // CONNECT WITH A USER
                 socket.on("connectToUser", targetUserId => {
                     if (this.users[targetUserId]) {
-                        console.log(`Connecting ${id} to ${targetUserId}`);
-                        this.users[targetUserId].emit("newConnection", id);
+                        // console.log(`Connecting ${id} to ${targetUserId}`);
+                        this.io
+                            .to(this.users[targetUserId].sock_id)
+                            .emit("newConnection", id);
                         socket.emit("newConnection", targetUserId);
+                        console.log("Connected New User....");
                     } else {
                         console.log(`User ${targetUserId} not found`);
                     }
