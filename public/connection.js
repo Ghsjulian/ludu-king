@@ -11,7 +11,7 @@ class SocketManager {
 
     static async getUser(id) {
         try {
-            const user = await this.UserModel.findById(id);
+            const user = await User.findById(id);
             if (!user) {
                 console.log(`User not found: ${id}`);
                 return;
@@ -26,31 +26,30 @@ class SocketManager {
         this.io.attach(server);
         this.io.on("connection", socket => {
             socket.on("user", user => {
-                const u_data = JSON.parse(user);
+                var u_data = JSON.parse(user);
                 u_data.sock_id = socket.id;
                 const id = u_data.u_id;
-
                 if (this.users[id]) {
                     return;
                 } else {
                     this.users[id] = u_data;
+                    const active_users = Object.values(this.users);
+                    this.activeUsers.push(active_users);
+                    this.io.emit("newUser", u_data);
+                    socket.on("activeUsers", () => {
+                    this.io.emit("activeUsers", this.activeUsers);
+                });
                 }
-
                 console.log(`${u_data.u_name} Connected`);
-
-                // Emit all active users to the new user
-                socket.emit("activeUsers", this.users);
-
-                // Emit the new user to all connected users
-                this.io.emit("newUser", u_data);
-
+                // ALL ACTIVE USERS
+                /**/
+                
                 // IF DISCONNECT
                 socket.on("disconnect", () => {
                     console.log(`${u_data.u_name} Disconnected`);
                     delete this.users[id];
                     this.io.emit("userLeft", u_data); // Send user left event to all clients
                 });
-
                 // CONNECT WITH A USER
                 socket.on("connectToUser", targetUserId => {
                     if (this.users[targetUserId]) {

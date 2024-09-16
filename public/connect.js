@@ -51,18 +51,22 @@ const updateUser = user => {
 socket.on("connection", () => {
     console.log("Connected to server");
 });
-
+/*
+socket.on("newUser", user => {
+    updateUser(user);
+});
+*/
 socket.emit("user", JSON.stringify({ u_id, u_name }));
 
 socket.on("activeUsers", users => {
     console.log(users);
-    Object.values(users).forEach(user => {
-        updateUser(user);
-    });
-});
-
-socket.on("newUser", user => {
-    updateUser(user);
+    if (users.length > 1) {
+        users.forEach(user => {
+            updateUser(user);
+        });
+    } else {
+        updateUser(users);
+    }
 });
 
 socket.on("userLeft", user => {
