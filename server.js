@@ -12,7 +12,7 @@ const router = require("./src/router/");
 dotenv.config();
 const isLogin = require("./src/auth/isLogin");
 const isToken = require("./src/auth/isToken");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 const HOST = "127.0.0.1";
 const dbName = process.env.DB;
 const URI = process.env.URI;

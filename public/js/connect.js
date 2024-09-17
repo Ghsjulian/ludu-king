@@ -114,6 +114,7 @@ const Connect = id => {
     conn.textContent = "Request Sent";
     socket.emit("connectToUser", id);
     sendMessage("REQUEST");
+    conn.onclick=""
 };
 
 // Handle new connection event
